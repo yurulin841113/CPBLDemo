@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row pt-4 pb-3">
         <div class="col-12">
-            <h2 class="text-primary">
+            <h2>
                 球員清單
             </h2>
         </div>
@@ -40,6 +40,7 @@
                 <th>球隊</th>
                 <th>號碼</th>
                 <th>名稱</th>
+                <th>身高/體重</th>
                 <th>位置</th>
                 <th>初登板時間</th>
                 <th>建立時間</th>
@@ -54,6 +55,7 @@
                     <td>@i.Team</td>
                     <td>@i.Number</td>
                     <td>@i.Name</td>
+                    <td>@Convert.ToInt32(i.Height) (cm) / @Convert.ToInt32(i.Weight) (kg)</td>
                     <td>@i.Position</td>
                     <td>@i.FirstDate</td>
                     <td>@i.CreatedTime</td>
