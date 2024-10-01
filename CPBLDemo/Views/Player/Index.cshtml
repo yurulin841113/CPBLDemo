@@ -1,0 +1,79 @@
+﻿@model List<PlayerList>
+
+@{
+    ViewData["Title"] = "球員清單";
+
+    var id = ViewData["id"];
+    var name = ViewData["name"];
+}
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2 class="text-primary">
+                球員清單
+            </h2>
+        </div>
+        <form method="get" action="/Player/Index">
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <label for="id">ID</label>
+                    <input type="number" name="id" id="id" placeholder="請輸入ID" min="1" value="@id" />
+                </div>
+                <div class="col-md-4">
+                    <label for="name">球員名稱</label>
+                    <input type="text" name="name" id="name" placeholder="請輸入球員名稱" value="@name" />
+                    <button type="submit">查詢</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 text-end mb-2">
+        <a asp-controller="Player" asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> 新增類別
+        </a>
+    </div>
+    <table class="table  table-bordered table-striped table-hover">
+        <thead>
+            <tr class="table-dark">
+                <th>ID</th>
+                <th>號碼</th>
+                <th>名稱</th>
+                <th>位置</th>
+                <th>初登板時間</th>
+                <th>建立時間</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model.OrderBy(u => u.Id))
+            {
+                <tr>
+                    <td>@i.Id</td>
+                    <td>@i.Number</td>
+                    <td>@i.Name</td>
+                    <td>@i.Position</td>
+                    <td>@i.FirstDate</td>
+                    <td>@i.CreatedTime</td>
+                    <td>
+                        <div class="w-100 btn-group" role="group">
+                            <a asp-controller="Player" asp-action="Edit" asp-route-id="@i.Id" class="btn  btn-info mx-2">
+                                <i class="bi bi-pencil-square"></i>
+                                編輯
+                            </a>
+                            <a asp-controller="Player" asp-action="Delete" asp-route-id="@i.Id" class="btn  btn-danger mx-2">
+                                <i class="bi bi-x-circle-fill"></i>
+                                刪除
+                            </a>
+                            <form method="post" action="/Player/Delete" class="mx-2">
+                                <input type="hidden" name="id" value="@i.Id" />
+                                <button type="submit" class="btn  btn-danger "><i class="bi bi-x-circle-fill"></i> 刪除</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
