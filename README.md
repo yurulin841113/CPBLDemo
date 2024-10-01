@@ -1,4 +1,4 @@
-# 中華職棒Asp.net MVC Demo網頁
+# Asp.net MVC 中華職棒Demo網頁
 #### ➡️ 使用工具: • Visual Studio 2022 
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; • MS SQL 
 #### ➡️ 使用環境: • Asp.net Core 8 MVC 
