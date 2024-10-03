@@ -2,26 +2,38 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CPBLDemo.Models;
 
 public partial class PlayerList
 {
+    [Key]
     public int Id { get; set; }
 
+    [Required]
+    [DisplayName("球員號碼")]
     public int Number { get; set; }
 
+    [Required]
     public string Position { get; set; }
 
+    [Required]
     public string Team { get; set; }
 
+    [Required]
     public string Name { get; set; }
 
+    [Required]
     public decimal Height { get; set; }
 
+    [Required]
     public decimal Weight { get; set; }
 
+    [Required]
     public DateTime FirstDate { get; set; }
 
+    [Required]
     public DateTime CreatedTime { get; set; }
 }

@@ -2,9 +2,6 @@
 
 @{
     ViewData["Title"] = "球員清單";
-
-    var id = ViewData["id"];
-    var name = ViewData["name"];
 }
 
 <div class="container">
@@ -16,19 +13,22 @@
         </div>
         <form method="get" action="/Player/Index">
             <div class="row mb-2">
-                <div class="col-md-3">
-                    <label for="id">ID</label>
-                    <input type="number" name="id" id="id" placeholder="請輸入ID" min="1" value="@id" />
+                <div class="col-md-2">
+                    <input class="form-control me-sm-2" type="number" name="id" id="id" placeholder="請輸入ID" min="1" value="@ViewData["id"]" />
                 </div>
-                <div class="col-md-4">
-                    <label for="name">球員名稱</label>
-                    <input type="text" name="name" id="name" placeholder="請輸入球員名稱" value="@name" />
-                    <button type="submit">查詢</button>
+                <div class="col-md-2">
+                    <input class="form-control me-sm-2" type="number" name="number" id="number" placeholder="請輸入球員號碼" min="1" value="@ViewData["number"]" />
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control me-sm-2" type="text" name="name" id="name" placeholder="請輸入球員名稱" value="@ViewData["name"]" />
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit"> <i class="bi bi-search"></i> 查詢</button>
                 </div>
             </div>
         </form>
     </div>
-    <div class="col-12 text-end mb-2">
+    <div class="col-12 text-start mb-2">
         <a asp-controller="Player" asp-action="Create" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> 新增類別
         </a>
@@ -57,19 +57,19 @@
                     <td>@i.Name</td>
                     <td>@Convert.ToInt32(i.Height) (cm) / @Convert.ToInt32(i.Weight) (kg)</td>
                     <td>@i.Position</td>
-                    <td>@i.FirstDate</td>
-                    <td>@i.CreatedTime</td>
+                    <td>@i.FirstDate.ToString("yyyy-MM-dd")</td>
+                    <td>@i.CreatedTime.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <div class="w-100 btn-group" role="group">
-                            <a asp-controller="Player" asp-action="Edit" asp-route-id="@i.Id" class="btn  btn-info mx-2">
+                        <div class="d-flex justify-content-start align-items-center w-100" role="group">
+                            <a asp-controller="Player" asp-action="Edit" asp-route-id="@i.Id" class="btn  btn-info me-2">
                                 <i class="bi bi-pencil-square"></i>
                                 編輯
                             </a>
-                            <a asp-controller="Player" asp-action="Delete" asp-route-id="@i.Id" class="btn  btn-danger mx-2">
+                            <a asp-controller="Player" asp-action="Delete" asp-route-id="@i.Id" class="btn  btn-danger me-2">
                                 <i class="bi bi-x-circle-fill"></i>
                                 刪除
                             </a>
-                            <form method="post" action="/Player/Delete" class="mx-2">
+                            <form method="post" action="/Player/Delete" class="d-inline">
                                 <input type="hidden" name="id" value="@i.Id" />
                                 <button type="submit" class="btn  btn-danger "><i class="bi bi-x-circle-fill"></i> 刪除</button>
                             </form>
