@@ -57,22 +57,24 @@
                     <td>@i.Name</td>
                     <td>@Convert.ToInt32(i.Height) (cm) / @Convert.ToInt32(i.Weight) (kg)</td>
                     <td>@i.Position</td>
-                    <td>@i.FirstDate.ToString("yyyy-MM-dd")</td>
+                    <td>@i.FirstDate?.ToString("yyyy-MM-dd")</td>
                     <td>@i.CreatedTime.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <div class="d-flex justify-content-start align-items-center w-100" role="group">
+                        <div class="d-flex justify-content-center align-items-center w-100" role="group">
                             <a asp-controller="Player" asp-action="Edit" asp-route-id="@i.Id" class="btn  btn-info me-2">
                                 <i class="bi bi-pencil-square"></i>
                                 編輯
                             </a>
-                            <a asp-controller="Player" asp-action="Delete" asp-route-id="@i.Id" class="btn  btn-danger me-2">
+                            <a asp-controller="Player" asp-action="Delete" asp-route-id="@i.Id" class="btn  btn-warning">
                                 <i class="bi bi-x-circle-fill"></i>
                                 刪除
                             </a>
+                            <!-- 直接刪除
                             <form method="post" action="/Player/Delete" class="d-inline">
                                 <input type="hidden" name="id" value="@i.Id" />
                                 <button type="submit" class="btn  btn-danger "><i class="bi bi-x-circle-fill"></i> 刪除</button>
                             </form>
+                            -->
                         </div>
                     </td>
                 </tr>

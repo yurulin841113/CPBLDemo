@@ -12,28 +12,38 @@ public partial class PlayerList
     [Key]
     public int Id { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "球員號碼不得為空!")]
     [DisplayName("球員號碼")]
-    public int Number { get; set; }
+    [Range(0, 99, ErrorMessage = "球員號碼只能在0~99!")]
+    public int? Number { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "位置不得為空!")]
+    [DisplayName("位置")]
     public string Position { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "球隊不得為空!")]
+    [DisplayName("球隊")]
     public string Team { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "姓名不得為空!")]
+    [DisplayName("姓名")]
     public string Name { get; set; }
 
-    [Required]
-    public decimal Height { get; set; }
+    [Required(ErrorMessage = "身高不得為空!")]
+    [DisplayName("身高")]
+    [Range(160, int.MaxValue, ErrorMessage = "身高要在160公分以上!")]
+    public decimal? Height { get; set; }
+
+    [Required(ErrorMessage = "體重不得為空!")]
+    [DisplayName("體重")]
+    [Range(60, int.MaxValue, ErrorMessage = "體重要在60公斤以上!")]
+    public decimal? Weight { get; set; }
+
+    [Required(ErrorMessage = "初登板時間不得為空!")]
+    [DisplayName("初登板時間")]
+    public DateTime? FirstDate { get; set; }
 
     [Required]
-    public decimal Weight { get; set; }
-
-    [Required]
-    public DateTime FirstDate { get; set; }
-
-    [Required]
+    [DisplayName("創建時間")]
     public DateTime CreatedTime { get; set; }
 }
