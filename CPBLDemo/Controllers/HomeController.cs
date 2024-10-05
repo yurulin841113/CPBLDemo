@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CPBLDemo.Data
+namespace CPBLDemo.Controllers
 {
     public class HomeController : Controller
     {
