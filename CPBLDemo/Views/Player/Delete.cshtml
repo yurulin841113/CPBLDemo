@@ -1,0 +1,78 @@
+﻿@model PlayerList
+
+@{
+    ViewData["Title"] = "球員刪除";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-primary">球員刪除</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="mb-3 p-1 col-md-5 me-5">
+                        <select asp-for="TeamId" class="form-control" disabled="disabled">
+                            <option value="">請選擇球隊</option>
+                            @foreach (var team in ViewBag.Teams) 
+                            {
+                                <!option value="@team.TeamId" @(team.TeamId == Model.TeamId ? "selected" : "")>
+                                    @team.TeamName
+                                </!option>
+                            }
+                        </select>
+                        <span asp-validation-for="TeamId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 p-1 col-md-5">
+                        <input asp-for="Number" class="form-control" type="number" min="0" placeholder="請輸入球員號碼只能在0~99" disabled="disabled"/>
+                        <span asp-validation-for="Number" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 p-1 col-md-5 me-5">
+                        <input asp-for="Name" class="form-control" placeholder="請輸入姓名" disabled="disabled" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 p-1 col-md-5">
+                        <input asp-for="Position" class="form-control" placeholder="請輸入位置" disabled="disabled" />
+                        <span asp-validation-for="Position" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3 p-1 col-md-5 me-5">
+                        cm
+                        <input asp-for="Height" class="form-control" type="number" min="160" placeholder="請輸入身高要在160公分以上" disabled="disabled" />
+                        <span asp-validation-for="Height" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 p-1 col-md-5">
+                        kg
+                        <input asp-for="Weight" class="form-control" type="number" min="60" placeholder="請輸入體重要在60公斤以上" disabled="disabled" />
+                        <span asp-validation-for="Weight" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-3 p-1 col-md-12">
+                    <label asp-for="FirstDate" class="p-0"></label>
+                    <input asp-for="FirstDate" class="form-control" type="date" placeholder="請輸入初登板日期" disabled="disabled" />
+                    <span asp-validation-for="FirstDate" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-warning form-control">刪除</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Player" asp-action="Index" class="btn btn-danger border form-control">
+                            返回
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
