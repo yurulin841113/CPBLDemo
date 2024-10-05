@@ -14,6 +14,8 @@ public partial class dbCpblBaseBallContext : DbContext
 
     public virtual DbSet<PlayerList> PlayerList { get; set; }
 
+    public virtual DbSet<Team> Team { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<PlayerList>(entity =>
@@ -27,10 +29,23 @@ public partial class dbCpblBaseBallContext : DbContext
             entity.Property(e => e.Position)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.Team)
+            entity.Property(e => e.TeamId).HasColumnName("TeamID");
+            entity.Property(e => e.Weight).HasColumnType("decimal(18, 3)");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.PlayerList)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PlayerList_Team");
+        });
+
+        modelBuilder.Entity<Team>(entity =>
+        {
+            entity.Property(e => e.TeamId)
+                .ValueGeneratedNever()
+                .HasColumnName("TeamID");
+            entity.Property(e => e.TeamName)
                 .IsRequired()
                 .HasMaxLength(50);
-            entity.Property(e => e.Weight).HasColumnType("decimal(18, 3)");
         });
 
         OnModelCreatingPartial(modelBuilder);

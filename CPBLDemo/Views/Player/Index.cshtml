@@ -17,10 +17,21 @@
                     <input class="form-control me-sm-2" type="number" name="id" id="id" placeholder="請輸入ID" min="1" value="@ViewData["id"]" />
                 </div>
                 <div class="col-md-2">
-                    <input class="form-control me-sm-2" type="number" name="number" id="number" placeholder="請輸入球員號碼" min="1" value="@ViewData["number"]" />
+                    <input class="form-control me-sm-2" type="number" name="number" id="number" placeholder="請輸入球員號碼" min="0" value="@ViewData["number"]" />
                 </div>
                 <div class="col-md-2">
                     <input class="form-control me-sm-2" type="text" name="name" id="name" placeholder="請輸入球員名稱" value="@ViewData["name"]" />
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control me-sm-2" name="teamid" id="teamid">
+                        <option value="">請選擇球隊</option>
+                        @foreach (var team in ViewBag.Teams)
+                        {
+                            <!option value="@team.TeamId" @(team.TeamId.ToString() == ViewData["teamid"]?.ToString() ? "selected" : "")>
+                                @team.TeamName
+                            </!option>
+                        }
+                    </select>
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-primary my-2 my-sm-0" type="submit"> <i class="bi bi-search"></i> 查詢</button>
@@ -48,11 +59,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var i in Model.OrderBy(u => u.Id))
+            @foreach (var i in Model)
             {
                 <tr>
                     <td>@i.Id</td>
-                    <td>@i.Team</td>
+                    <td>@i.Team?.TeamName</td> <!-- 確保團隊名稱存在 -->
                     <td>@i.Number</td>
                     <td>@i.Name</td>
                     <td>@Convert.ToInt32(i.Height) (cm) / @Convert.ToInt32(i.Weight) (kg)</td>
