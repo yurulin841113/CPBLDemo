@@ -1,4 +1,4 @@
-using CPBLDemo.Data;
+using CPBLDemo.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

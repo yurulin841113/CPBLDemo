@@ -1,10 +1,7 @@
-﻿using CPBLDemo.Data;
+﻿using CPBLDemo.DataAccess.Data;
 using CPBLDemo.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq;
 
 namespace CPBLDemo.Controllers
 {
@@ -26,7 +23,7 @@ namespace CPBLDemo.Controllers
         #region 查詢     
         public IActionResult Index()
         {
-            var objPlayerList = _db.PlayerList.Include(p => p.Team).ToList(); // 包含團隊資料
+            List<PlayerList> objPlayerList = _db.PlayerList.Include(p => p.Team).ToList(); // 包含團隊資料
 
             return View(objPlayerList);
         }
@@ -36,7 +33,7 @@ namespace CPBLDemo.Controllers
             ViewData["id"] = id;
             ViewData["name"] = name;
             ViewData["number"] = number;
-            ViewData["teamid"] = teamid; 
+            ViewData["teamid"] = teamid;
             ViewBag.Teams = GetAllTeams();
 
             IQueryable<PlayerList> query = _db.PlayerList.Include(p => p.Team); // 提前包含 Team 以提高效能
@@ -104,12 +101,15 @@ namespace CPBLDemo.Controllers
                 return NotFound();
             }
 
-            PlayerList? playerlistFromDb =  _db.PlayerList.Include(p => p.Team).FirstOrDefault(p => p.Id == id);
+            PlayerList? playerlistFromDb = _db.PlayerList.Include(p => p.Team).FirstOrDefault(p => p.Id == id);
 
             if (playerlistFromDb == null)
             {
                 return NotFound();
             }
+ 
+            playerlistFromDb.Height = Math.Floor(playerlistFromDb.Height);
+            playerlistFromDb.Weight = Math.Floor(playerlistFromDb.Weight);
 
             return View(playerlistFromDb);
         }
@@ -147,6 +147,9 @@ namespace CPBLDemo.Controllers
             {
                 return NotFound();
             }
+
+            playerlistFromDb.Height = Math.Floor(playerlistFromDb.Height);
+            playerlistFromDb.Weight = Math.Floor(playerlistFromDb.Weight);
 
             return View(playerlistFromDb);
         }

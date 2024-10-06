@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using CPBLDemo.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CPBLDemo.Data;
+namespace CPBLDemo.DataAccess.Data;
 
 public partial class dbCpblBaseBallContext : DbContext
 {

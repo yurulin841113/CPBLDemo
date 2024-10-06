@@ -4,6 +4,12 @@
     ViewData["Title"] = "球員清單";
 }
 
+<script>
+     document.getElementById('teamid').addEventListener('change', function() {
+         this.form.submit();
+     });
+</script>
+
 <div class="container">
     <div class="row pt-4 pb-3">
         <div class="col-12">
@@ -23,7 +29,7 @@
                     <input class="form-control me-sm-2" type="text" name="name" id="name" placeholder="請輸入球員名稱" value="@ViewData["name"]" />
                 </div>
                 <div class="col-md-2">
-                    <select class="form-control me-sm-2" name="teamid" id="teamid">
+                    <select class="form-control me-sm-2" name="teamid" id="teamid" onchange="this.form.submit()">
                         <option value="">請選擇球隊</option>
                         @foreach (var team in ViewBag.Teams)
                         {
