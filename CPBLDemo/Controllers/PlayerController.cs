@@ -1,4 +1,5 @@
 ﻿using CPBLDemo.DataAccess.Data;
+using CPBLDemo.DataAccess.Repository.IRepository;
 using CPBLDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,23 +8,18 @@ namespace CPBLDemo.Controllers
 {
     public class PlayerController : Controller
     {
-        private readonly dbCpblBaseBallContext _db;
-        public PlayerController(dbCpblBaseBallContext db)
+        private readonly IPlayerListRepository _playerListRepo;
+        private readonly ITeamRepository _teamRepo;
+        public PlayerController(IPlayerListRepository playerListRepo, ITeamRepository teamRepo)
         {
-            _db = db;
+            _playerListRepo = playerListRepo;
+            _teamRepo = teamRepo;
         }
-
-        #region 取得所有球隊做下拉選單功能
-        private List<Team> GetAllTeams()
-        {
-            return _db.Team.ToList();
-        }
-        #endregion
 
         #region 查詢     
         public IActionResult Index()
         {
-            List<PlayerList> objPlayerList = _db.PlayerList.Include(p => p.Team).ToList(); // 包含團隊資料
+            List<PlayerList> objPlayerList = _playerListRepo.GetAll().OrderBy(c => c.TeamId).ToList(); // 包含團隊資料
 
             return View(objPlayerList);
         }
@@ -34,9 +30,9 @@ namespace CPBLDemo.Controllers
             ViewData["name"] = name;
             ViewData["number"] = number;
             ViewData["teamid"] = teamid;
-            ViewBag.Teams = GetAllTeams();
+            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
-            IQueryable<PlayerList> query = _db.PlayerList.Include(p => p.Team); // 提前包含 Team 以提高效能
+            IQueryable<PlayerList> query = _playerListRepo.GetAll().AsQueryable();
 
             if (id.HasValue && id > 0)
             {
@@ -58,7 +54,7 @@ namespace CPBLDemo.Controllers
                 query = query.Where(c => c.Name.Contains(name));
             }
 
-            List<PlayerList> objPlayerList = query.ToList();
+            List<PlayerList> objPlayerList = query.OrderBy(c => c.TeamId).ToList();
 
             return View(objPlayerList);
         }
@@ -67,7 +63,7 @@ namespace CPBLDemo.Controllers
         #region 新增    
         public IActionResult Create()
         {
-            ViewBag.Teams = GetAllTeams();
+            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             return View();
         }
@@ -78,9 +74,9 @@ namespace CPBLDemo.Controllers
             {
                 objPlayerlist.CreatedTime = DateTime.Now;
 
-                _db.PlayerList.Add(objPlayerlist);
+                _playerListRepo.Add(objPlayerlist);
 
-                _db.SaveChanges();
+                _playerListRepo.Save();
 
                 TempData["success"] = "新增成功!!";
 
@@ -94,20 +90,20 @@ namespace CPBLDemo.Controllers
         #region 編輯
         public IActionResult Edit(int? id)
         {
-            ViewBag.Teams = GetAllTeams();
+            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            PlayerList? playerlistFromDb = _db.PlayerList.Include(p => p.Team).FirstOrDefault(p => p.Id == id);
+            PlayerList? playerlistFromDb = _playerListRepo.Get(c => c.Id == id);
 
             if (playerlistFromDb == null)
             {
                 return NotFound();
             }
- 
+
             playerlistFromDb.Height = Math.Floor(playerlistFromDb.Height);
             playerlistFromDb.Weight = Math.Floor(playerlistFromDb.Weight);
 
@@ -118,9 +114,9 @@ namespace CPBLDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.PlayerList.Update(objPlayerlist);
+                _playerListRepo.Update(objPlayerlist);
 
-                _db.SaveChanges();
+                _playerListRepo.Save();
 
                 TempData["success"] = "編輯成功!!";
 
@@ -134,14 +130,14 @@ namespace CPBLDemo.Controllers
         #region 確認後刪除
         public IActionResult Delete(int? id)
         {
-            ViewBag.Teams = GetAllTeams();
+            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            PlayerList? playerlistFromDb = _db.PlayerList.Find(id);
+            PlayerList? playerlistFromDb = _playerListRepo.Get(c => c.Id == id);
 
             if (playerlistFromDb == null)
             {
@@ -156,44 +152,43 @@ namespace CPBLDemo.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            PlayerList? objPlayerlist = _db.PlayerList.Find(id);
+            PlayerList? objPlayerlist = _playerListRepo.Get(c => c.Id == id);
 
             if (objPlayerlist == null)
             {
                 return NotFound();
             }
 
-            _db.PlayerList.Remove(objPlayerlist); // 刪除操作
-            _db.SaveChanges(); // 保存變更
+            _playerListRepo.Remove(objPlayerlist); // 刪除操作
+            _playerListRepo.Save(); // 保存變更
             TempData["success"] = "刪除成功!!";
             return RedirectToAction("Index");
         }
-
         #endregion
 
-        #region 直接刪除  
-        //[HttpPost]
-        //public IActionResult Delete(int? id)
-        //{
+        //#region 直接刪除  
+        ////[HttpPost]
+        ////public IActionResult Delete(int? id)
+        ////{
 
-        //    if (id == null || id == 0)
-        //    {
-        //        return NotFound();
-        //    }
+        ////    if (id == null || id == 0)
+        ////    {
+        ////        return NotFound();
+        ////    }
 
-        //    PlayerList? query = _db.PlayerList.Find(id);
+        ////    PlayerList? query = _db.PlayerList.Find(id);
 
-        //    if (query != null)
-        //    {
-        //        _db.PlayerList.Remove(query); // 刪除操作
-        //        _db.SaveChanges(); // 保存變更
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
-        //}
-        #endregion
+        ////    if (query != null)
+        ////    {
+        ////        _db.PlayerList.Remove(query); // 刪除操作
+        ////        _db.SaveChanges(); // 保存變更
+        ////        return RedirectToAction("Index");
+        ////    }
+        ////    else
+        ////    {
+        ////        return NotFound();
+        ////    }
+        ////}
+        //#endregion
     }
 }
