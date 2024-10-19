@@ -10,6 +10,6 @@ namespace CPBLDemo.DataAccess.Repository.IRepository
     public interface IPlayerListRepository :IRepository<PlayerList>
     {
         void Update(PlayerList obj);
-        void Save();
+
     }
 }

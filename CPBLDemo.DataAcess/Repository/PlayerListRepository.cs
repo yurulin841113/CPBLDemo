@@ -18,10 +18,7 @@ namespace CPBLDemo.DataAccess.Repository
         {  
             _db = db;
         }
-        public void Save()
-        {
-            _db.SaveChanges();
-        }
+
         public void Update(PlayerList obj)
         {
             _db.PlayerList.Update(obj);

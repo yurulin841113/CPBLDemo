@@ -2,13 +2,19 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace CPBLDemo.Models;
 
 public partial class Team
 {
+    [Required(ErrorMessage = "球隊編號不得為空!")]
+    [DisplayName("球隊編號")]
     public int TeamId { get; set; }
 
+    [Required(ErrorMessage = "球隊名稱不得為空!")]
+    [DisplayName("球隊名稱")]
     public string TeamName { get; set; }
 
     public virtual ICollection<PlayerList> PlayerList { get; set; } = new List<PlayerList>();

@@ -17,6 +17,9 @@ namespace CPBLDemo.DataAccess.Repository
         {
             _db = db;
         }
-
+        public void Update(Team obj)
+        {
+            _db.Team.Update(obj);
+        }
     }
 }

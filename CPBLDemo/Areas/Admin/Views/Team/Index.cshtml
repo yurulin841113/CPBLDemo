@@ -1,0 +1,63 @@
+﻿@model List<Team>
+
+@{
+    ViewData["Title"] = "球員清單";
+}
+
+<script>
+     document.getElementById('teamid').addEventListener('change', function() {
+         this.form.submit();
+     });
+</script>
+
+<div class="container">
+    <div class="row pt-4 pb-3">
+        <div class="col-12">
+            <h2>
+                球員清單
+            </h2>
+        </div>
+    </div>
+    <div class="col-12 text-start mb-2">
+        <a asp-controller="Team" asp-action="Create" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> 新增球隊
+        </a>
+    </div>
+    <table class="table  table-bordered table-striped table-hover">
+        <thead>
+            <tr class="table-dark">
+                <th>ID</th>
+                <th>球隊</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.TeamId</td>
+                    <td>@i.TeamName</td> <!-- 確保團隊名稱存在 -->               
+                    <td>
+                        <div class="d-flex justify-content-center align-items-center w-100" role="group">
+                            <a asp-controller="Team" asp-action="Edit" asp-route-id="@i.TeamId" class="btn  btn-info me-2">
+                                <i class="bi bi-pencil-square"></i>
+                                編輯
+                            </a>
+                            <a asp-controller="Team" asp-action="Delete" asp-route-id="@i.TeamId" class="btn  btn-warning">
+                                <i class="bi bi-x-circle-fill"></i>
+                                刪除
+                            </a>
+                            <!-- 直接刪除
+                            <form method="post" action="/Player/Delete" class="d-inline">
+                                <input type="hidden" name="id" value="@i.TeamId" />
+                                <button type="submit" class="btn  btn-danger "><i class="bi bi-x-circle-fill"></i> 刪除</button>
+                            </form>
+                            -->
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

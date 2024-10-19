@@ -1,0 +1,43 @@
+﻿@model Team
+
+@{
+    ViewData["Title"] = "球員刪除";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-primary">球員刪除</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="mb-3 p-1 col-md-5 me-5">
+                        <input asp-for="TeamId" class="form-control" placeholder="請輸入球隊編號" disabled="disabled" />
+                        <span asp-validation-for="TeamId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 p-1 col-md-5">
+                        <input asp-for="TeamName" class="form-control" placeholder="請輸入球隊名稱" disabled="disabled" />
+                        <span asp-validation-for="TeamName" class="text-danger"></span>
+                    </div>
+                </div>        
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-warning form-control">刪除</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Team" asp-action="Index" class="btn btn-danger border form-control">
+                            返回
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

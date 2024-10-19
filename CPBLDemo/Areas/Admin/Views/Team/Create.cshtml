@@ -1,0 +1,47 @@
+﻿@model Team
+
+@{
+    ViewData["Title"] = "球隊新增";
+}
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-primary">球隊新增</h2>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                <div class="row">
+                    <div class="mb-3 p-1 col-md-5">
+                        <input asp-for="TeamId" class="form-control" type="number" min="0" placeholder="請輸入球隊編號" />
+                        <span asp-validation-for="TeamId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 p-1 col-md-5">
+                        <input asp-for="TeamName" class="form-control" placeholder="請輸入球隊名稱" />
+                        <span asp-validation-for="TeamName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                   
+                </div>             
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-success form-control"> <i class="bi bi-plus-circle"></i> 新增</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Team" asp-action="Index" class="btn btn-danger border form-control">
+                            <i class="bi bi-arrow-return-left"></i>
+                            返回
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -4,22 +4,21 @@ using CPBLDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CPBLDemo.Controllers
+namespace CPBLDemo.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PlayerController : Controller
     {
-        private readonly IPlayerListRepository _playerListRepo;
-        private readonly ITeamRepository _teamRepo;
-        public PlayerController(IPlayerListRepository playerListRepo, ITeamRepository teamRepo)
+        private readonly IUnitOfWork _unitOfWork;
+        public PlayerController(IUnitOfWork unitOfWork)
         {
-            _playerListRepo = playerListRepo;
-            _teamRepo = teamRepo;
+            _unitOfWork = unitOfWork;
         }
 
         #region 查詢     
         public IActionResult Index()
         {
-            List<PlayerList> objPlayerList = _playerListRepo.GetAll().OrderBy(c => c.TeamId).ToList(); // 包含團隊資料
+            List<PlayerList> objPlayerList = _unitOfWork.PlayerList.GetAll().OrderBy(c => c.TeamId).ToList(); // 包含團隊資料
 
             return View(objPlayerList);
         }
@@ -30,9 +29,9 @@ namespace CPBLDemo.Controllers
             ViewData["name"] = name;
             ViewData["number"] = number;
             ViewData["teamid"] = teamid;
-            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
+            ViewBag.Teams = _unitOfWork.Team.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
-            IQueryable<PlayerList> query = _playerListRepo.GetAll().AsQueryable();
+            IQueryable<PlayerList> query = _unitOfWork.PlayerList.GetAll().AsQueryable();
 
             if (id.HasValue && id > 0)
             {
@@ -63,7 +62,7 @@ namespace CPBLDemo.Controllers
         #region 新增    
         public IActionResult Create()
         {
-            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
+            ViewBag.Teams = _unitOfWork.Team.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             return View();
         }
@@ -74,9 +73,9 @@ namespace CPBLDemo.Controllers
             {
                 objPlayerlist.CreatedTime = DateTime.Now;
 
-                _playerListRepo.Add(objPlayerlist);
+                _unitOfWork.PlayerList.Add(objPlayerlist);
 
-                _playerListRepo.Save();
+                _unitOfWork.Save();
 
                 TempData["success"] = "新增成功!!";
 
@@ -90,14 +89,14 @@ namespace CPBLDemo.Controllers
         #region 編輯
         public IActionResult Edit(int? id)
         {
-            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
+            ViewBag.Teams = _unitOfWork.Team.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            PlayerList? playerlistFromDb = _playerListRepo.Get(c => c.Id == id);
+            PlayerList? playerlistFromDb = _unitOfWork.PlayerList.Get(c => c.Id == id);
 
             if (playerlistFromDb == null)
             {
@@ -114,9 +113,9 @@ namespace CPBLDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _playerListRepo.Update(objPlayerlist);
+                _unitOfWork.PlayerList.Update(objPlayerlist);
 
-                _playerListRepo.Save();
+                _unitOfWork.Save();
 
                 TempData["success"] = "編輯成功!!";
 
@@ -130,14 +129,14 @@ namespace CPBLDemo.Controllers
         #region 確認後刪除
         public IActionResult Delete(int? id)
         {
-            ViewBag.Teams = _teamRepo.GetAll().ToList();// 取得所有球隊做下拉選單功能
+            ViewBag.Teams = _unitOfWork.Team.GetAll().ToList();// 取得所有球隊做下拉選單功能
 
             if (id == null || id == 0)
             {
                 return NotFound();
             }
 
-            PlayerList? playerlistFromDb = _playerListRepo.Get(c => c.Id == id);
+            PlayerList? playerlistFromDb = _unitOfWork.PlayerList.Get(c => c.Id == id);
 
             if (playerlistFromDb == null)
             {
@@ -152,15 +151,15 @@ namespace CPBLDemo.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            PlayerList? objPlayerlist = _playerListRepo.Get(c => c.Id == id);
+            PlayerList? objPlayerlist = _unitOfWork.PlayerList.Get(c => c.Id == id);
 
             if (objPlayerlist == null)
             {
                 return NotFound();
             }
 
-            _playerListRepo.Remove(objPlayerlist); // 刪除操作
-            _playerListRepo.Save(); // 保存變更
+            _unitOfWork.PlayerList.Remove(objPlayerlist); // 刪除操作
+            _unitOfWork.Save(); // 保存變更
             TempData["success"] = "刪除成功!!";
             return RedirectToAction("Index");
         }

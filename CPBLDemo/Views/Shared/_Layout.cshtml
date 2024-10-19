@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3 fixed-top" style="z-index: 1030;" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index"
                    style="background-image:url('/images/logo_new.png'); background-size: contain; background-repeat: no-repeat; background-position: center; height: 50px; width: 100px; display: block;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -24,16 +24,34 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
+                            <a class="nav-link active" asp-area="Customer" asp-controller="Home" asp-action="Index">
                                 <i class="bi bi-house-door"></i> 首頁
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Player" asp-action="Index">
-                                <i class="bi bi-clipboard-data"></i>
+                            <a class="nav-link" asp-area="Admin" asp-controller="Player" asp-action="Index">
+                                <i class="bi bi-person"></i>
                                 中職球員清單
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Team" asp-action="Index">
+                                <i class="bi bi-clipboard-data"></i>
+                                中職球隊
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">內容管理</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Player" asp-action="Index">
+                                    中職球員清單
+                                </a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Team" asp-action="Index">
+                                    中職球隊
+                                </a>
+                                <div class="dropdown-divider"></div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -49,7 +67,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy;2024 All rights reserved.- <a asp-area="" asp-controller="Home" asp-action="Index">CPBL首頁</a>
+            &copy;2024 All rights reserved.- <a asp-area="Customer" asp-controller="Home" asp-action="Index">CPBL首頁</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
